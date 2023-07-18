@@ -1,7 +1,7 @@
 {
   "name": "book-catalogue-system-server",
   "version": "1.0.0",
-  "description": "Digital Cow Hut Backend",
+  "description": "Book catalogue system backend",
   "main": "src/server.ts",
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
@@ -48,4 +48,3 @@
     "zod": "^3.21.4"
   }
 }
-
