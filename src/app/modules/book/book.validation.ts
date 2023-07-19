@@ -11,6 +11,9 @@ const createBookZodSchema = z.object({
     genre: z.string({
       required_error: 'genre is required',
     }),
+    image: z.string({
+      required_error: 'image link is required',
+    }),
     publicationDate: z.string({
       required_error: 'publication date is required',
     }),

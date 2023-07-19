@@ -16,7 +16,6 @@ const createBook = async (
   userEmail: string
 ): Promise<IBook | null> => {
   const user = new User();
-  console.log('============', bookData, userEmail, user);
   if (
     !(await user.isExist(userEmail)) ||
     !(await user.isExistById(bookData.user.toString()))
