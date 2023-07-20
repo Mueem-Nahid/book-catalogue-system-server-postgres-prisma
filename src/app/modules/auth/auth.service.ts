@@ -27,8 +27,8 @@ const loginUser = async (
     modelInstance = new User();
   }
   const isPersonExist:
-    | Pick<IUser, 'password' | 'email' | '_id'>
-    | Pick<IAdmin, 'password' | 'email' | '_id'>
+    | Pick<IUser, 'password' | 'email' | '_id' | 'name'>
+    | Pick<IAdmin, 'password' | 'email' | '_id' | 'name'>
     | null = await modelInstance.isExist(email);
   if (!isPersonExist)
     throw new ApiError(httpStatus.NOT_FOUND, 'User not found !');
@@ -59,7 +59,13 @@ const loginUser = async (
     { expiresIn: config.jwt.jwt_refresh_token_expired_time }
   );
 
+  const userInfo = {
+    email: isPersonExist.email,
+    name: isPersonExist.name
+  }
+
   return {
+    userInfo,
     accessToken,
     refreshToken,
   };

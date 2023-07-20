@@ -1,4 +1,5 @@
 import { Model } from 'mongoose';
+import {IUser} from "../user/user.interface";
 
 export type IRole = 'admin';
 
@@ -19,7 +20,8 @@ export type IAdmin = {
 export type IAdminMethods = {
   isExist(
     email: string
-  ): Promise<Pick<IAdmin, '_id' | 'password' | 'email'> | null>;
+  ): Promise<Pick<IAdmin, '_id' | 'password' | 'email' | 'name'> | null>;
+  isExistById(_id: string): Promise<Pick<IUser, '_id' | 'password' | 'email' | 'name'> | null>;
   isPasswordMatched(
     enteredPassword: string,
     savedPassword: string

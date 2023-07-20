@@ -1,6 +1,8 @@
 import { model, Schema } from 'mongoose';
 import { AdminModel, IAdmin } from './admin.interface';
 import { hashPassword } from '../../../helpers/hashPassword';
+import {IUser} from "../user/user.interface";
+import {User} from "../user/user.model";
 
 const adminSchema = new Schema<IAdmin>(
   {
@@ -29,11 +31,17 @@ const adminSchema = new Schema<IAdmin>(
 // instance method
 adminSchema.methods.isExist = async function (
   phoneNumber: string
-): Promise<Pick<IAdmin, '_id' | 'password' | 'email'> | null> {
+): Promise<Pick<IAdmin, '_id' | 'password' | 'email' | 'name'> | null> {
   return Admin.findOne(
     { phoneNumber },
-    { _id: 1, password: 1, email: 1 }
+    { _id: 1, password: 1, email: 1, name: 1 }
   ).lean();
+};
+
+adminSchema.methods.isExistById = async function (
+   _id: string
+): Promise<Pick<IUser, '_id' | 'password' | 'email' | 'name'> | null> {
+   return User.findOne({ _id }, { _id: 1, password: 1, email: 1, name: 1 }).lean();
 };
 
 adminSchema.methods.isPasswordMatched = async function (

@@ -16,14 +16,14 @@ const userSchema = new Schema<IUser>(
 // instance method
 userSchema.methods.isExist = async function (
   email: string
-): Promise<Pick<IUser, '_id' | 'password'> | null> {
-  return User.findOne({ email }, { _id: 1, password: 1, email: 1 }).lean();
+): Promise<Pick<IUser, '_id' | 'password' | 'email' | 'name'> | null> {
+  return User.findOne({ email }, { _id: 1, password: 1, email: 1, name: 1 }).lean();
 };
 
 userSchema.methods.isExistById = async function (
   _id: string
-): Promise<Pick<IUser, '_id' | 'password'> | null> {
-  return User.findOne({ _id }, { _id: 1, password: 1, email: 1 }).lean();
+): Promise<Pick<IUser, '_id' | 'password' | 'email' | 'name'> | null> {
+  return User.findOne({ _id }, { _id: 1, password: 1, email: 1, name: 1 }).lean();
 };
 
 userSchema.methods.isPasswordMatched = async function (
