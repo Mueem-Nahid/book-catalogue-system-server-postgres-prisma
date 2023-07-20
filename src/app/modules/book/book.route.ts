@@ -16,7 +16,6 @@ router.post(
 
 router.get(
   '/:id',
-  auth(ENUM_USER_ROLE.BUYER, ENUM_USER_ROLE.SELLER, ENUM_USER_ROLE.ADMIN),
   BookController.getABook
 );
 
