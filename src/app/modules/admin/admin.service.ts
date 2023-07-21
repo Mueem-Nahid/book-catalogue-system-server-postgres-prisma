@@ -14,7 +14,9 @@ const createAdminIntoDb = async (adminData: IAdmin): Promise<IAdmin | null> => {
 };
 
 const getMyProfile = async (id: string): Promise<IAdmin | null> => {
-  return Admin.findOne({ _id: id }).select('name phoneNumber address');
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  return Admin.findOne({ _id: id }).select('name email');
 };
 
 const updateMyProfile = async (userId: string, payload: Partial<IAdmin>) => {
@@ -22,7 +24,7 @@ const updateMyProfile = async (userId: string, payload: Partial<IAdmin>) => {
   if (!isExist) throw new ApiError(httpStatus.NOT_FOUND, 'Admin not found');
 
   // eslint-disable-next-line no-unused-vars
-  const { name, role, password, ...otherData } = payload;
+  const { name, email, password, ...otherData } = payload;
 
   let hashedPassword;
   if (password) hashedPassword = await hashPassword.encryptPassword(password);
@@ -41,7 +43,7 @@ const updateMyProfile = async (userId: string, payload: Partial<IAdmin>) => {
 
   return Admin.findOneAndUpdate({ _id: userId }, updatedUserData, {
     new: true,
-    projection: { name: 1, address: 1, phoneNumber: 1 },
+    projection: { name: 1, _id: 1, email: 1 },
   });
 };
 

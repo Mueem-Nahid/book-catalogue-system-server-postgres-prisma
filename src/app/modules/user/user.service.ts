@@ -36,6 +36,8 @@ const getMyProfile = async (
   id: string,
   email: string
 ): Promise<IUser | null> => {
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
   return User.findOne({ _id: id, email }).select('name email');
 };
 
