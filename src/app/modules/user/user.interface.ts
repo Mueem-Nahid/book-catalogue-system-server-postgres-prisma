@@ -12,8 +12,12 @@ export type IUser = {
 // static methods
 /* eslint-disable no-unused-vars */
 export type IUserMethods = {
-  isExist(email: string): Promise<Pick<IUser, '_id' | 'password' | 'email' | 'name'> | null>;
-  isExistById(_id: string): Promise<Pick<IUser, '_id' | 'password' | 'email' | 'name'> | null>;
+  isExist(
+    email: string
+  ): Promise<Pick<IUser, '_id' | 'password' | 'email' | 'name'> | null>;
+  isExistById(
+    _id: string
+  ): Promise<Pick<IUser, '_id' | 'password' | 'email' | 'name'> | null>;
   isPasswordMatched(
     enteredPassword: string,
     savedPassword: string

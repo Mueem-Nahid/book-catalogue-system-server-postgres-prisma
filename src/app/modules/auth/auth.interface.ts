@@ -5,8 +5,8 @@ export type ILoginUser = {
 
 export type IUserInfo = {
   email: string;
-  name: string
-}
+  name: string;
+};
 
 export type IUserLoginResponse = {
   userInfo: IUserInfo;

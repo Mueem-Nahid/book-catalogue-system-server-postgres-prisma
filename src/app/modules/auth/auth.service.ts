@@ -62,8 +62,8 @@ const loginUser = async (
   const userInfo = {
     id: isPersonExist._id,
     email: isPersonExist.email,
-    name: isPersonExist.name
-  }
+    name: isPersonExist.name,
+  };
 
   return {
     userInfo,

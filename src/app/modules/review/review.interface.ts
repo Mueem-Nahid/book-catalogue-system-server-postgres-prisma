@@ -1,9 +1,9 @@
-import {Model, ObjectId} from "mongoose";
+import { Model, ObjectId } from 'mongoose';
 
 export type IReview = {
-   _id: ObjectId;
-   reviewedBy: ObjectId;
-   review: string;
-}
+  _id: ObjectId;
+  reviewedBy: ObjectId;
+  review: string;
+};
 
 export type ReviewModel = Model<IReview, Record<string, unknown>>;

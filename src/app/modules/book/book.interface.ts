@@ -1,5 +1,5 @@
 import mongoose, { Model } from 'mongoose';
-import {IReview} from "../review/review.interface";
+import { IReview } from '../review/review.interface';
 
 export type ILocation =
   | 'Dhaka'
