@@ -15,6 +15,8 @@ const createReview = catchAsync(
     const id: Types.ObjectId = new Types.ObjectId();
 
     const newReview: IReview = {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       _id: id,
       reviewedBy: user?._id,
       review,
