@@ -1,4 +1,5 @@
 import mongoose, { Model } from 'mongoose';
+import {IReview} from "../review/review.interface";
 
 export type ILocation =
   | 'Dhaka'
@@ -29,7 +30,7 @@ export type IBook = {
   genre: string;
   image: string;
   publicationDate: string;
-  reviews: string;
+  reviews: IReview[];
   user: mongoose.Types.ObjectId;
 };
 
