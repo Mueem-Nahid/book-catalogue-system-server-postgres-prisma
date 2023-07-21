@@ -80,7 +80,7 @@ const getAllBooks = async (
 };
 
 const getABook = async (id: string): Promise<IBook | null> => {
-  return Book.findById(id);
+  return Book.findById(id).populate('reviews.reviewedBy', 'name', 'User');
 };
 
 const updateBook = async (
