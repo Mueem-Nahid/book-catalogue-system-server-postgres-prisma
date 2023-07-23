@@ -33,7 +33,8 @@ const getAllBooks = async (
 ): Promise<IGenericResponsePagination<IBook[]>> => {
   const { page, limit, skip, sortBy, sortOrder } =
     paginationHelper.calculatePagination(paginationOption);
-  const { searchTerm, ...filtersData } = filters;
+  // const { searchTerm, ...filtersData } = filters;
+  const { searchTerm, publicationDate, ...otherFilters } = filters;
   const andConditions = [];
 
   // making implicit and
@@ -48,12 +49,24 @@ const getAllBooks = async (
     });
   }
 
-  if (Object.keys(filtersData).length) {
+  if (publicationDate) {
     andConditions.push({
-      $and: Object.entries(filtersData).map(([field, value]) => ({
-        [field]: value,
-      })),
+      publicationDate: {
+        $regex: publicationDate,
+        $options: 'i',
+      },
     });
+  }
+
+  if (Object.keys(otherFilters).length) {
+    // Exclude publicationDate from otherFilters
+    if (Object.keys(otherFilters).length > 1 || !('publicationDate' in otherFilters)) {
+      andConditions.push({
+        $and: Object.entries(otherFilters).map(([field, value]) => ({
+          [field]: value,
+        })),
+      });
+    }
   }
 
   const sortConditions: { [key: string]: SortOrder } = {};
