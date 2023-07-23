@@ -25,11 +25,10 @@ export const label: ILabel[] = ['for sale', 'sold out'];
 
 export const category: ICategory[] = ['Dairy', 'Beef', 'Dual Purpose'];
 
-export const bookSearchableFields: string[] = ['location', 'breed', 'category'];
+export const bookSearchableFields: string[] = ['title', 'author', 'genre'];
 
 export const filterableFields: string[] = [
   'searchTerm',
-  'location',
-  'breed',
-  'category',
+  'genre',
+  'publicationDate'
 ];
