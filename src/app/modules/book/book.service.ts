@@ -108,9 +108,9 @@ const updateBook = async (
 
 const deleteBook = async (
   id: string,
-  seller: string
+  user: string
 ): Promise<IBook | null> => {
-  return Book.findOneAndDelete({ _id: id, seller });
+  return Book.findOneAndDelete({ _id: id, user });
 };
 
 export const BookService = {

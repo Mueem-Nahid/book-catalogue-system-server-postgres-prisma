@@ -14,7 +14,6 @@ const createBook = catchAsync(
   async (req: Request, res: Response): Promise<void> => {
     const bookData = req.body;
     const userObj: JwtPayload | null = req.user;
-    console.log('userObj', userObj);
     const userEmail = userObj?.email;
     const result: IBook | null = await BookService.createBook(
       bookData,
@@ -85,8 +84,8 @@ const updateBook = catchAsync(async (req: Request, res: Response) => {
 const deleteBook = catchAsync(async (req: Request, res: Response) => {
   const id = req.params.id;
   const userObj: JwtPayload | null = req.user;
-  const sellerId = userObj?._id;
-  const result = await BookService.deleteBook(id, sellerId);
+  const userId = userObj?._id;
+  const result = await BookService.deleteBook(id, userId);
   if (!result)
     sendResponse<IBook>(res, {
       statusCode: httpStatus.NOT_FOUND,
