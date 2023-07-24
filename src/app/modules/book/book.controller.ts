@@ -66,8 +66,8 @@ const updateBook = catchAsync(async (req: Request, res: Response) => {
   const id = req.params.id;
   const data = req.body;
   const userObj: JwtPayload | null = req.user;
-  const sellerId = userObj?._id;
-  const result: IBook | null = await BookService.updateBook(id, data, sellerId);
+  const userId = userObj?._id;
+  const result: IBook | null = await BookService.updateBook(id, data, userId);
   if (!result)
     sendResponse<IBook>(res, {
       statusCode: httpStatus.NOT_FOUND,

@@ -101,7 +101,7 @@ const updateBook = async (
   payload: Partial<IBook>,
   userId: string
 ): Promise<IBook | null> => {
-  return Book.findOneAndUpdate({ _id: id, seller: userId }, payload, {
+  return Book.findOneAndUpdate({ _id: id, user: userId }, payload, {
     new: true,
   });
 };
