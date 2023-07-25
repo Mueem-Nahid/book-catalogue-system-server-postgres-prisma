@@ -10,6 +10,7 @@ const bookSchema = new Schema<IBook>(
     image: { type: String, required: true },
     publicationDate: { type: String, required: true },
     reviews: [reviewSchema],
+    // wishlist: [{ type: Schema.Types.ObjectId, ref: 'User' }],
     user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
   },
   { versionKey: false, timestamps: true }

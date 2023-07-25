@@ -8,8 +8,16 @@ import config from '../../config';
 const auth =
   (...requiredRoles: string[]) =>
   async (req: Request, res: Response, next: NextFunction) => {
-    // receiving all the values through rest operator
     try {
+      const endpoint: string = req.baseUrl;
+      console.log(endpoint);
+      if (
+        endpoint === '/api/v1/books' &&
+        req.method === 'GET' &&
+        !req.headers.authorization
+      )
+        return next();
+
       const token: string | undefined = req.headers.authorization;
       if (!token)
         throw new ApiError(
@@ -26,10 +34,10 @@ const auth =
       req.user = verifiedUser;
 
       /*if (requiredRoles.length && !requiredRoles.includes(verifiedUser.role))
-        throw new ApiError(
-          httpStatus.FORBIDDEN,
-          'Forbidden. You are not authorized to perform this action.'
-        );*/
+              throw new ApiError(
+                httpStatus.FORBIDDEN,
+                'Forbidden. You are not authorized to perform this action.'
+              );*/
 
       next();
     } catch (error) {

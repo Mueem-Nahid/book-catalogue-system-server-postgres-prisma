@@ -9,6 +9,7 @@ import { filterableFields } from './book.constant';
 import { IPaginationOptions } from '../../../interfaces/common';
 import { paginationFields } from '../../../constants/pagination';
 import { JwtPayload } from 'jsonwebtoken';
+import { WishlistService } from '../wishlist/wishlist.service';
 
 const createBook = catchAsync(
   async (req: Request, res: Response): Promise<void> => {
@@ -36,7 +37,25 @@ const getAllBooks = catchAsync(
       paginationFields
     );
 
+    const userObj: JwtPayload | null = req.user;
+    const userId = userObj?._id;
+
     const result = await BookService.getAllBooks(filters, paginationOptions);
+
+    if (userId) {
+      const wishlist = await WishlistService.getUserWishlist(userId);
+      // Create a set of book ids in the wishlist for faster lookup
+      const wishlistSet = new Set(wishlist.map(item => item.book.toString()));
+
+      // Convert each Book document to a plain JavaScript object and add the isWishlisted property
+
+      result.data = result.data.map((book: IBook) => ({
+        ...book?.toObject(),
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        isWishlisted: wishlistSet.has(book?._id.toString()),
+      }));
+    }
 
     sendResponse<IBook[]>(res, {
       statusCode: httpStatus.OK,

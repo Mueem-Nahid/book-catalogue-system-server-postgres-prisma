@@ -60,7 +60,10 @@ const getAllBooks = async (
 
   if (Object.keys(otherFilters).length) {
     // Exclude publicationDate from otherFilters
-    if (Object.keys(otherFilters).length > 1 || !('publicationDate' in otherFilters)) {
+    if (
+      Object.keys(otherFilters).length > 1 ||
+      !('publicationDate' in otherFilters)
+    ) {
       andConditions.push({
         $and: Object.entries(otherFilters).map(([field, value]) => ({
           [field]: value,
@@ -106,10 +109,7 @@ const updateBook = async (
   });
 };
 
-const deleteBook = async (
-  id: string,
-  user: string
-): Promise<IBook | null> => {
+const deleteBook = async (id: string, user: string): Promise<IBook | null> => {
   return Book.findOneAndDelete({ _id: id, user });
 };
 

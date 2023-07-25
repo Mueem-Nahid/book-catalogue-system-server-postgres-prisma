@@ -3,6 +3,7 @@ import { UserRoutes } from '../modules/user/user.route';
 import { AdminRoutes } from '../modules/admin/admin.route';
 import { AuthRoutes } from '../modules/auth/auth.route';
 import { BookRoutes } from '../modules/book/book.route';
+import { WishlistRoutes } from '../modules/wishlist/wishlist.route';
 
 const router = express.Router();
 
@@ -19,6 +20,10 @@ const moduleRoutes: { path: string; route: Router }[] = [
   {
     path: '/books',
     route: BookRoutes,
+  },
+  {
+    path: '/wishlist',
+    route: WishlistRoutes,
   },
   {
     path: '/admins',
