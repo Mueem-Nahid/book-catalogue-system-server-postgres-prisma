@@ -1,12 +1,25 @@
 import catchAsync from '../../../shared/catchAsync';
-import { Request, Response } from 'express';
+import {Request, Response} from 'express';
 import sendResponse from '../../../shared/sendResponse';
 import httpStatus from 'http-status';
-import { AuthService } from './auth.service';
-import { IRefreshTokenResponse, IUserLoginResponse } from './auth.interface';
-import config from '../../../config';
+import {AuthService} from './auth.service';
+import {User} from "@prisma/client";
 
-const loginUser = catchAsync(async (req: Request, res: Response) => {
+
+const createUser = catchAsync(
+   async (req: Request, res: Response): Promise<void> => {
+     const user = req.body;
+     const result: User | null = await AuthService.createUser(user);
+     sendResponse(res, {
+       statusCode: httpStatus.CREATED,
+       success: true,
+       message: 'User created successfully. Please sign in now.',
+       data: result,
+     });
+   }
+);
+
+/*const loginUser = catchAsync(async (req: Request, res: Response) => {
   const { ...loginData } = req.body;
   const type: string = req?.baseUrl?.split('/')[3];
   const result: IUserLoginResponse = await AuthService.loginUser(
@@ -46,9 +59,10 @@ const refreshTokenHandler = catchAsync(async (req: Request, res: Response) => {
     message: 'New access token generated successfully !',
     data: result,
   });
-});
+});*/
 
 export const AuthController = {
-  loginUser,
-  refreshTokenHandler,
+  createUser,
+  /*loginUser,
+  refreshTokenHandler,*/
 };

@@ -1,4 +1,3 @@
-import mongoose from 'mongoose';
 import { Server } from 'http';
 import app from './app';
 import config from './config';
@@ -13,8 +12,6 @@ let server: Server;
 // database connection
 async function bootstrap() {
   try {
-    await mongoose.connect(config.database_url as string);
-    console.log('Database connection successful !!!');
 
     server = app.listen(config.port, () => {
       console.log(`Server listening on port ${config.port} ...`);
