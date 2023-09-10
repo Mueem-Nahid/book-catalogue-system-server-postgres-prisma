@@ -1,7 +1,7 @@
 {
   "name": "book-catalogue-system-server-postgres-prisma",
   "version": "1.0.0",
-  "description": "Book catalogue system backend by ppostgres and prisma",
+  "description": "Book catalogue system backend by postgres and prisma",
   "main": "src/server.ts",
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only src/server.ts",

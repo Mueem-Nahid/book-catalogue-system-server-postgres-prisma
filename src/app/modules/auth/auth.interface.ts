@@ -9,8 +9,8 @@ export type IUserInfo = {
 };
 
 export type IUserLoginResponse = {
-  userInfo: IUserInfo;
-  accessToken: string;
+  userInfo?: IUserInfo;
+  token: string;
   refreshToken?: string;
 };
 
