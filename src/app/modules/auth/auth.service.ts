@@ -7,24 +7,24 @@ import bcrypt from 'bcrypt';
 import { jwtHelper } from '../../../helpers/jwtHelper';
 import config from '../../../config';
 import { Secret } from 'jsonwebtoken';
-import {hashPassword} from "../../../helpers/hashPassword";
+import { hashPassword } from '../../../helpers/hashPassword';
 
 const createUser = async (data: User): Promise<Partial<User>> => {
-  const hashedPassword = await hashPassword.encryptPassword(data.password)
+  const hashedPassword = await hashPassword.encryptPassword(data.password);
   const result = await prisma.user.create({
     data: {
       ...data,
-      password: hashedPassword
+      password: hashedPassword,
     },
     select: {
-      id:true,
-      name:true,
-      email:true,
-      role:true,
-      contactNo:true,
-      address:true,
-      profileImg:true
-    }
+      id: true,
+      name: true,
+      email: true,
+      role: true,
+      contactNo: true,
+      address: true,
+      profileImg: true,
+    },
   });
   return result;
 };
@@ -32,16 +32,20 @@ const createUser = async (data: User): Promise<Partial<User>> => {
 const loginUser = async (payload: ILoginUser): Promise<IUserLoginResponse> => {
   const { email, password } = payload;
   const user = await prisma.user.findUnique({
-    select:{
-      id:true,
-      role:true,
-      password:true
+    select: {
+      id: true,
+      role: true,
+      password: true,
     },
-    where: { email } });
+    where: { email },
+  });
   if (!user) {
     throw new ApiError(httpStatus.NOT_FOUND, 'User not found !');
   }
-  const passwordMatch = await hashPassword.decryptPassword(password, user.password)
+  const passwordMatch = await hashPassword.decryptPassword(
+    password,
+    user.password
+  );
   if (!passwordMatch) {
     throw new ApiError(httpStatus.UNAUTHORIZED, 'ID or password is incorrect.');
   }
