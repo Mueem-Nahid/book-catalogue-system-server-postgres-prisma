@@ -3,8 +3,7 @@ import { Request, Response } from 'express';
 import sendResponse from '../../../shared/sendResponse';
 import httpStatus from 'http-status';
 import { CategoryService } from './category.service';
-import { Category, User } from '@prisma/client';
-import { UserService } from '../user/user.service';
+import { Category } from '@prisma/client';
 
 const createCategory = catchAsync(
   async (req: Request, res: Response): Promise<void> => {
@@ -44,8 +43,33 @@ const getSingleCategory = catchAsync(
   }
 );
 
+const updateCategory = catchAsync(async (req: Request, res: Response) => {
+  const id: string = req.params.id;
+  const data = req.body;
+  const result = await CategoryService.updateCategory(id, data);
+  sendResponse<Partial<Category>>(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Category updated !',
+    data: result,
+  });
+});
+
+const deleteCategory = catchAsync(async (req: Request, res: Response) => {
+  const id: string = req.params.id;
+  const result = await CategoryService.deleteCategory(id);
+  sendResponse<Partial<Category>>(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Category deleted !',
+    data: result,
+  });
+});
+
 export const CategoryController = {
   createCategory,
   getAllCategory,
   getSingleCategory,
+  updateCategory,
+  deleteCategory,
 };
