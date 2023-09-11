@@ -1,5 +1,4 @@
 import { IGenericErrorMessage } from './error';
-import { SortOrder } from 'mongoose';
 
 export type IGenericErrorResponse = {
   statusCode: number;
@@ -11,10 +10,10 @@ export type IPaginationOptions = {
   page?: number;
   limit?: number;
   sortBy?: string;
-  sortOrder?: SortOrder;
+  sortOrder?: string;
   minPrice?: number;
   maxPrice?: number;
-  location?: string;
+  category?: string;
 };
 
 export type IGenericResponsePagination<T> = {
