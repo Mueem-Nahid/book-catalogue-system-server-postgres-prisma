@@ -1,12 +1,9 @@
-import { Book, Prisma } from '@prisma/client';
+import {Book, Prisma} from '@prisma/client';
 import prisma from '../../../shared/prisma';
-import { IBookFilter } from './book.interface';
-import {
-  IGenericResponsePagination,
-  IPaginationOptions,
-} from '../../../interfaces/common';
-import { paginationHelper } from '../../../helpers/paginationHelper';
-import { bookSearchableFields } from './book.constant';
+import {IBookFilter} from './book.interface';
+import {IGenericResponsePagination, IPaginationOptions,} from '../../../interfaces/common';
+import {paginationHelper} from '../../../helpers/paginationHelper';
+import {bookSearchableFields} from './book.constant';
 
 const createBook = async (data: Book): Promise<Partial<Book> | null> => {
   const result = await prisma.book.create({
@@ -103,7 +100,52 @@ const getAllBooks = async (
   };
 };
 
+const getSingleBook = async (id: string) => {
+  const result = await prisma.book.findUnique({
+    where: {
+      id,
+    },
+    select:{
+      id:true,
+      title:true,
+      author:true,
+      genre:true,
+      price:true,
+      publicationDate:true,
+      categoryId:true
+    }
+  });
+  return result;
+};
+
+const updateBook = async (id: string, payload: Book) => {
+  const result = await prisma.book.update({
+    where: {
+      id,
+    },
+    data: payload,
+  });
+  return result;
+};
+
+const deleteBook = async (
+   id: string
+): Promise<Partial<Book> | null> => {
+  const result = await prisma.book.delete({
+    select: {
+      id: true,
+    },
+    where: {
+      id,
+    },
+  });
+  return result;
+};
+
 export const BookService = {
   createBook,
   getAllBooks,
+  getSingleBook,
+  updateBook,
+  deleteBook
 };

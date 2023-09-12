@@ -1,14 +1,13 @@
 import catchAsync from '../../../shared/catchAsync';
-import { Request, Response } from 'express';
+import {Request, Response} from 'express';
 import sendResponse from '../../../shared/sendResponse';
 import httpStatus from 'http-status';
-import { BookService } from './book.service';
+import {BookService} from './book.service';
 import pick from '../../../shared/pick';
-import { filterableFields } from './book.constant';
-import { IPaginationOptions } from '../../../interfaces/common';
-import { paginationFields } from '../../../constants/pagination';
-import { JwtPayload } from 'jsonwebtoken';
-import { Book } from '@prisma/client';
+import {filterableFields} from './book.constant';
+import {IPaginationOptions} from '../../../interfaces/common';
+import {paginationFields} from '../../../constants/pagination';
+import {Book} from '@prisma/client';
 
 const createBook = catchAsync(
   async (req: Request, res: Response): Promise<void> => {
@@ -46,7 +45,7 @@ const getAllBooks = catchAsync(
 const getABook = catchAsync(
   async (req: Request, res: Response): Promise<void> => {
     const id = req.params.id;
-    const result: Book | null = await BookService.getABook(id);
+    const result: Partial<Book> | null = await BookService.getSingleBook(id);
     sendResponse(res, {
       statusCode: httpStatus.OK,
       success: true,
@@ -59,16 +58,14 @@ const getABook = catchAsync(
 const updateBook = catchAsync(async (req: Request, res: Response) => {
   const id = req.params.id;
   const data = req.body;
-  const userObj: JwtPayload | null = req.user;
-  const userId = userObj?._id;
-  const result: IBook | null = await BookService.updateBook(id, data, userId);
+  const result: Book | null = await BookService.updateBook(id, data);
   if (!result)
-    sendResponse<IBook>(res, {
+    sendResponse<Book>(res, {
       statusCode: httpStatus.NOT_FOUND,
       success: false,
       message: 'Book not updated. No book is available to update.',
     });
-  sendResponse<IBook>(res, {
+  sendResponse<Book>(res, {
     statusCode: httpStatus.OK,
     success: true,
     message: 'Book updated !',
@@ -78,16 +75,14 @@ const updateBook = catchAsync(async (req: Request, res: Response) => {
 
 const deleteBook = catchAsync(async (req: Request, res: Response) => {
   const id = req.params.id;
-  const userObj: JwtPayload | null = req.user;
-  const userId = userObj?._id;
-  const result = await BookService.deleteBook(id, userId);
+  const result = await BookService.deleteBook(id);
   if (!result)
-    sendResponse<IBook>(res, {
+    sendResponse<Book>(res, {
       statusCode: httpStatus.NOT_FOUND,
       success: false,
       message: 'Book not deleted. No book is available to delete.',
     });
-  sendResponse<IBook>(res, {
+  sendResponse<Book>(res, {
     statusCode: httpStatus.NO_CONTENT,
     success: true,
     message: 'Book deleted !',

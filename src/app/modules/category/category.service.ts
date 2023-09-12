@@ -21,8 +21,6 @@ const getSingleCategory = async (id: string) => {
       id,
     },
     include: {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
       book: true,
     },
   });
