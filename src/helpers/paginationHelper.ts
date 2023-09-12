@@ -1,30 +1,28 @@
-import { SortOrder } from 'mongoose';
-
 type IOptions = {
   page?: number;
-  limit?: number;
+  size?: number;
   sortBy?: string;
-  sortOrder?: SortOrder;
+  sortOrder?: string;
 };
 
 type IOptionsResult = {
   page: number;
-  limit: number;
   skip: number;
+  size: number;
   sortBy: string;
-  sortOrder: SortOrder;
+  sortOrder: string;
 };
 
 const calculatePagination = (options: IOptions): IOptionsResult => {
   const page = Number(options.page || 1);
-  const limit = Number(options.limit || 50);
-  const skip: number = (page - 1) * limit;
+  const size = Number(options.size || 10);
+  const skip: number = (page - 1) * size;
   const sortBy: string = options.sortBy || 'createdAt';
-  const sortOrder: SortOrder = options.sortOrder || 'desc';
+  const sortOrder: string = options.sortOrder || 'desc';
 
   return {
     page,
-    limit,
+    size,
     skip,
     sortBy,
     sortOrder,

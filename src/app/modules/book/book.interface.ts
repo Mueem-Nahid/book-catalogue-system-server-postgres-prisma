@@ -6,4 +6,6 @@ export type IBookFilter = {
   author?: string;
   genre?: string;
   price?: string;
+  minPrice?: string;
+  maxPrice?: string;
 };

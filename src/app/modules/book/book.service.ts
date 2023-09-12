@@ -29,9 +29,9 @@ const getAllBooks = async (
   filters: IBookFilter,
   paginationOption: IPaginationOptions
 ): Promise<IGenericResponsePagination<Book[]>> => {
-  const { page, limit, skip, sortBy, sortOrder } =
+  const { page, skip, size, sortBy, sortOrder } =
     paginationHelper.calculatePagination(paginationOption);
-  const { searchTerm, ...filtersData } = filters;
+  const { searchTerm, minPrice, maxPrice, category, ...filtersData } = filters;
   const andConditions = [];
 
   if (searchTerm) {
@@ -39,7 +39,7 @@ const getAllBooks = async (
       OR: bookSearchableFields.map(field => ({
         [field]: {
           contains: searchTerm,
-          mode: 'sensitive',
+          mode: 'insensitive',
         },
       })),
     });
@@ -58,13 +58,29 @@ const getAllBooks = async (
   const whereConditions: Prisma.BookWhereInput =
     andConditions.length > 0 ? { AND: andConditions } : {};
 
+  if (minPrice !== undefined || maxPrice !== undefined) {
+    whereConditions.price = {};
+
+    if (minPrice !== undefined) {
+      whereConditions.price.gte = parseFloat(minPrice);
+    }
+
+    if (maxPrice !== undefined) {
+      whereConditions.price.lte = parseFloat(maxPrice);
+    }
+  }
+
+  if (category) {
+    whereConditions.categoryId = category;
+  }
+
   const result = await prisma.book.findMany({
     include: {
       category: true,
     },
     where: whereConditions,
     skip,
-    take: limit,
+    take: size,
     orderBy:
       sortBy && sortOrder
         ? { [sortBy]: sortOrder }
@@ -80,7 +96,8 @@ const getAllBooks = async (
     meta: {
       total,
       page,
-      limit,
+      size,
+      totalPage: Math.ceil(total / size),
     },
     data: result,
   };
