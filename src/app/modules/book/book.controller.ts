@@ -1,13 +1,13 @@
 import catchAsync from '../../../shared/catchAsync';
-import {Request, Response} from 'express';
+import { Request, Response } from 'express';
 import sendResponse from '../../../shared/sendResponse';
 import httpStatus from 'http-status';
-import {BookService} from './book.service';
+import { BookService } from './book.service';
 import pick from '../../../shared/pick';
-import {filterableFields} from './book.constant';
-import {IPaginationOptions} from '../../../interfaces/common';
-import {paginationFields} from '../../../constants/pagination';
-import {Book} from '@prisma/client';
+import { filterableFields } from './book.constant';
+import { IPaginationOptions } from '../../../interfaces/common';
+import { paginationFields } from '../../../constants/pagination';
+import { Book } from '@prisma/client';
 
 const createBook = catchAsync(
   async (req: Request, res: Response): Promise<void> => {
@@ -36,6 +36,32 @@ const getAllBooks = catchAsync(
       statusCode: httpStatus.OK,
       success: true,
       message: 'Books are retrieved successfully !',
+      meta: result.meta,
+      data: result.data,
+    });
+  }
+);
+
+// book.controller.ts
+
+const getBooksByCategory = catchAsync(
+  async (req: Request, res: Response): Promise<void> => {
+    const { categoryId } = req.params;
+    const filters = pick(req.query, filterableFields);
+    const paginationOptions: IPaginationOptions = pick(
+      req.query,
+      paginationFields
+    );
+
+    // Add the categoryId filter
+    filters.categoryId = categoryId;
+
+    const result = await BookService.getAllBooks(filters, paginationOptions);
+
+    sendResponse<Book[]>(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: 'Books with associated category data fetched successfully',
       meta: result.meta,
       data: result.data,
     });
@@ -92,6 +118,7 @@ const deleteBook = catchAsync(async (req: Request, res: Response) => {
 export const BookController = {
   createBook,
   getAllBooks,
+  getBooksByCategory,
   getABook,
   updateBook,
   deleteBook,

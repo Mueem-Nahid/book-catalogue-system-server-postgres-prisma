@@ -32,5 +32,5 @@ const updateBookZodSchema = z.object({
 
 export const BookValidation = {
   createBookZodSchema,
-  updateBookZodSchema
+  updateBookZodSchema,
 };

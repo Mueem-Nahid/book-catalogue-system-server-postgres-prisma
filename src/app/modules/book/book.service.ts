@@ -1,9 +1,12 @@
-import {Book, Prisma} from '@prisma/client';
+import { Book, Prisma } from '@prisma/client';
 import prisma from '../../../shared/prisma';
-import {IBookFilter} from './book.interface';
-import {IGenericResponsePagination, IPaginationOptions,} from '../../../interfaces/common';
-import {paginationHelper} from '../../../helpers/paginationHelper';
-import {bookSearchableFields} from './book.constant';
+import { IBookFilter } from './book.interface';
+import {
+  IGenericResponsePagination,
+  IPaginationOptions,
+} from '../../../interfaces/common';
+import { paginationHelper } from '../../../helpers/paginationHelper';
+import { bookSearchableFields } from './book.constant';
 
 const createBook = async (data: Book): Promise<Partial<Book> | null> => {
   const result = await prisma.book.create({
@@ -105,15 +108,15 @@ const getSingleBook = async (id: string) => {
     where: {
       id,
     },
-    select:{
-      id:true,
-      title:true,
-      author:true,
-      genre:true,
-      price:true,
-      publicationDate:true,
-      categoryId:true
-    }
+    select: {
+      id: true,
+      title: true,
+      author: true,
+      genre: true,
+      price: true,
+      publicationDate: true,
+      categoryId: true,
+    },
   });
   return result;
 };
@@ -128,9 +131,7 @@ const updateBook = async (id: string, payload: Book) => {
   return result;
 };
 
-const deleteBook = async (
-   id: string
-): Promise<Partial<Book> | null> => {
+const deleteBook = async (id: string): Promise<Partial<Book> | null> => {
   const result = await prisma.book.delete({
     select: {
       id: true,
@@ -147,5 +148,5 @@ export const BookService = {
   getAllBooks,
   getSingleBook,
   updateBook,
-  deleteBook
+  deleteBook,
 };
