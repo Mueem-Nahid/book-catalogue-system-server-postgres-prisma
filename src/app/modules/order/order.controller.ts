@@ -45,7 +45,33 @@ const getAllOrders = catchAsync(
   }
 );
 
+const getOrderById = catchAsync(
+  async (req: Request, res: Response): Promise<void> => {
+    const userData = req.user;
+    const { orderId } = req.params;
+    const result = await OrderService.getOrderById(
+      userData?.userId,
+      userData?.role,
+      orderId
+    );
+    if (!result) {
+      return sendResponse(res, {
+        statusCode: httpStatus.NOT_FOUND,
+        success: true,
+        message: 'No order available.',
+      });
+    }
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: 'Order',
+      data: result,
+    });
+  }
+);
+
 export const OrderController = {
   createOrder,
   getAllOrders,
+  getOrderById,
 };

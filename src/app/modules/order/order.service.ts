@@ -28,7 +28,30 @@ const getAllOrders = async (userId: string, role: string): Promise<Order[]> => {
   return result;
 };
 
+const getOrderById = async (
+  userId: string,
+  role: string,
+  orderId: string
+): Promise<Order | null> => {
+  if (role === 'admin') {
+    const result = await prisma.order.findUnique({
+      where: {
+        id: orderId,
+      },
+    });
+    return result;
+  }
+  const result = await prisma.order.findUnique({
+    where: {
+      id: orderId,
+      userId,
+    },
+  });
+  return result;
+};
+
 export const OrderService = {
   createOrder,
   getAllOrders,
+  getOrderById,
 };
