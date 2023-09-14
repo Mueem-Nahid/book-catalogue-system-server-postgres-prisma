@@ -1,9 +1,8 @@
-import mongoose from 'mongoose';
 import { IGenericErrorMessage } from '../interfaces/error';
 import { IGenericErrorResponse } from '../interfaces/common';
 
 const handleValidationError = (
-  error: mongoose.Error.ValidatorError
+  error: { errors: { [s: string]: unknown; } | ArrayLike<unknown>; }
 ): IGenericErrorResponse => {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
