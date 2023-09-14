@@ -31,7 +31,11 @@ const createOrder = catchAsync(
 
 const getAllOrders = catchAsync(
   async (req: Request, res: Response): Promise<void> => {
-    const result = await OrderService.getAllOrders();
+    const userData = req.user;
+    const result = await OrderService.getAllOrders(
+      userData?.userId,
+      userData?.role
+    );
     sendResponse(res, {
       statusCode: httpStatus.OK,
       success: true,
