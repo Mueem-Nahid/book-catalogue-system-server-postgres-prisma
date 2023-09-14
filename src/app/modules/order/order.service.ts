@@ -15,6 +15,12 @@ const createOrder = async (
   return result;
 };
 
+const getAllOrders = async (): Promise<Order[]> => {
+  const result = await prisma.order.findMany();
+  return result;
+};
+
 export const OrderService = {
   createOrder,
+  getAllOrders,
 };
